@@ -18,6 +18,10 @@ def make_steam_request(endpoint, params):
     response = requests.get(base_url, params=params)
     return response.json()
 
+@app.route("/games/getAppidNamePair")
+def get_appid_name_pair():
+    return STEAM_GAMES.get_games()
+
 @app.route("/games/<steamId>", methods=["GET"])
 def get_user_owned_games(steamId):
     owned_games = make_steam_request("IPlayerService/GetOwnedGames/v0001", {"steamId": escape(steamId)})['response']
