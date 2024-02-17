@@ -1,7 +1,7 @@
 from flask import Flask, jsonify
 from cache import cache
 
-from SteamRoutesBlueprint import steam_games_bp
+from modules.games.SteamGamesRoutesBlueprint import steam_games_bp
 
 app = Flask(__name__)
 
