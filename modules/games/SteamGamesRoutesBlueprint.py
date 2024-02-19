@@ -4,7 +4,7 @@ from .SteamGameRequests import SteamGameRequests
 from cache import cache
 from ..SteamRequest import SteamRequest 
 
-steam_games_bp = Blueprint('steam', __name__)
+steam_games_bp = Blueprint('steam_games', __name__)
 game_requests = SteamGameRequests()
 
 @steam_games_bp.route("/games/getAppidNamePair")
