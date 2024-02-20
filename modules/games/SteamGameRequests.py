@@ -9,13 +9,13 @@ class SteamGameRequests(SteamRequest):
 
 
     def _get_steam_games(self):
-        data = SteamRequest.make_steam_request("ISteamApps/GetAppList/v2", {})
+        data = self.make_steam_request("ISteamApps/GetAppList/v2", {})
         all_games = data['applist']['apps']
         steam_games = {game['appid']: game['name'] for game in all_games}
         return steam_games
 
     def _get_owned_games(self, steamId):
-        data = SteamRequest.make_steam_request("IPlayerService/GetOwnedGames/v0001", {"steamId": escape(steamId)})['response']['games']
+        data = self.make_steam_request("IPlayerService/GetOwnedGames/v0001", {"steamId": escape(steamId)})['response']['games']
         owned_games = {
             game['appid']: {
                 "playtime_forever": game['playtime_forever'],
@@ -52,15 +52,15 @@ class SteamGameRequests(SteamRequest):
         return jsonify(owned_games)
 
     def get_recently_played_games(self, steamId):
-        recent_games = SteamRequest.make_steam_request("IPlayerService/GetRecentlyPlayedGames/v0001", {"steamId": escape(steamId)})
+        recent_games = self.make_steam_request("IPlayerService/GetRecentlyPlayedGames/v0001", {"steamId": escape(steamId)})
         return jsonify(recent_games)
 
     def get_specific_game_info(self, steamId, gameId: int):
         owned_games = self._get_games(steamId)
-        specific_game = owned_games.get(int(gameId))  # need to make a more explicit error handler
+        specific_game = owned_games.get(int(gameId))
 
         if specific_game:
             return jsonify(specific_game)
         else:
             # Handle game not found error
-            return "Key not found"
+            return jsonify({"response": {"status": 400, "message": "User does not own the game or wrong key"}})
