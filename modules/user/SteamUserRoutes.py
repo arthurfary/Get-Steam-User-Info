@@ -20,4 +20,8 @@ def get_user_summary(steam_id):
 def get_user_friends(steam_id):
     return user_requests.get_user_friends(steam_id)
 
-
+@steam_users_bp.route("/users/achievements/<id_or_url>/<game_id>", methods=["GET"])
+@cache.cached()
+@SteamRequest.resolve_steam_id_and_handle_error
+def get_user_achievements(steam_id, game_id):
+    return user_requests.get_user_achievements(steam_id, game_id)

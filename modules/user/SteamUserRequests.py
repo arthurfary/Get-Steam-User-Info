@@ -14,3 +14,7 @@ class SteamUserRequests(SteamRequest):
     def get_user_friends(self, id):
         user_friends = self.make_steam_request("ISteamUser/GetFriendList/v0001/", {"relationship": "all", "steamid": id})
         return jsonify(user_friends)
+    
+    def get_user_achievements(self, id, game_id):
+        user_achievements = self.make_steam_request("ISteamUserStats/GetPlayerAchievements/v0001/", {"steamid": id, "appid": game_id})
+        return jsonify(user_achievements)

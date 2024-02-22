@@ -56,10 +56,7 @@ class SteamRequest:
         def decorated_function(id_or_url, *args, **kwargs):
             try:
                 steam_id = SteamRequest.resolve_steam_id(id_or_url)
-                if steam_id:
-                    return f(steam_id, *args, **kwargs)
-                else:
-                    raise BadRequest("Invalid User ID or URL")
+                return f(steam_id, *args, **kwargs)
                 
             except BadRequest as e:
                 error_message = e.description
